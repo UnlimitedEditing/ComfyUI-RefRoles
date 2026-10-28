@@ -23,6 +23,8 @@ Reference roles: Image 1 is the character (keep this person's identity, face, ha
 put her in the park
 ```
 
+When a scene (`s`) is combined with a subject role (`c`, `o`, `i`, `p`), an instruction is added to relight the subject to the scene's ambient and diffused light, colour temperature and hue (or to the `l` image's lighting when one is given), so the subject is not pasted in with its original lighting.
+
 `image_count` drops roles beyond the images actually present (0 = label every role given). Images are numbered in the order
 given. Unknown letters count as "no role". There are no dependencies.
 

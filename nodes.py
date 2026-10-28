@@ -50,7 +50,24 @@ def build_prompt(prompt, roles, image_count=0):
             parts.append(f"Image {n} is {label} ({rule}).")
     if not parts:
         return prompt
-    return "Reference roles: " + " ".join(parts) + "\n\n" + prompt
+    return "Reference roles: " + " ".join(parts) + integration(letters) + "\n\n" + prompt
+
+
+SUBJECT_ROLES = set("coip")
+
+
+def integration(letters):
+    """A scene combined with a subject must be relit, not pasted in: the subject keeps its identity but not its light."""
+    if "s" not in letters or not SUBJECT_ROLES & set(letters):
+        return ""
+    src = f"image {letters.index('l') + 1}'s lighting" if "l" in letters else "the scene's lighting"
+    return (
+        " Integrate the subject into the scene as if photographed there: relight the subject and everything they"
+        f" wear or hold to match {src}, with its ambient and diffused light, key direction, colour temperature and"
+        " hue, the same shadows, rim light, reflections and atmosphere (rain, haze, glow from practical lights)."
+        " The subject keeps their identity but not their original lighting or background colour cast; grade skin,"
+        " fabric and highlights to the scene's tones."
+    )
 
 
 class RefRolePromptBuilder:
